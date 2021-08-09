@@ -1,25 +1,41 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
+<Header />
+<router-view v-if="this.$store.state.isUserRequested" v-slot="{ Component }">
+    <transition name="fade">
+        <component :is="Component" />
+    </transition>
+</router-view>
+
+<div v-else class="text-center">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<Footer />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+    name: 'App',
+    data() {
+        return {
+            // dataLoaded: this.$store.state.isUserRequested
+        }
+    },
+    beforeCreate() {
+        this.$store.dispatch('LoadUserDetailsOnPageLoad');
+    },
+    components: {
+        Header,
+        Footer
+    }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
