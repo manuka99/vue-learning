@@ -54,11 +54,16 @@ const Store = createStore({
     LoadUserDetailsOnPageLoad: (context) => {
       const userID = localStorage.getItem(APP_USER_TOKEN);
       context.commit("setIsUserRequested", false);
-      Api(true)
-        .get(`/users/${userID}`)
-        .then((res) => context.commit("setUser", res.data))
-        .catch(() => context.commit("setUser", {}))
-        .finally(() => context.commit("setIsUserRequested", true));
+      return new Promise((resolve) => {
+        Api(true)
+          .get(`/users/${userID}`)
+          .then((res) => context.commit("setUser", res.data))
+          .catch(() => context.commit("setUser", {}))
+          .finally(() => {
+            context.commit("setIsUserRequested", true);
+            resolve(context.state.isUserRequested);
+          });
+      });
     },
     fetchPosts: (context) => {
       Api(true)

@@ -56,6 +56,11 @@ const Router = createRouter({
   routes,
 });
 
-// Router.beforeEach(async () => store.state.isUserRequested);
+Router.beforeEach(async (to, from, next) => {
+  if (!store.state.isUserRequested) {
+    await store.dispatch("LoadUserDetailsOnPageLoad");
+    next();
+  } else next();
+});
 
 export default Router;
