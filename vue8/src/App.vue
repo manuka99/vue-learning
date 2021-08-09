@@ -32,6 +32,7 @@ export default {
         }
     },
     beforeCreate() {
+        document.title = "Feed Manager";
         this.$store.dispatch('LoadUserDetailsOnPageLoad');
     },
     components: {
