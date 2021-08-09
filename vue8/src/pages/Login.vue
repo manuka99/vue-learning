@@ -1,15 +1,18 @@
 <template>
-<div class="container mt-2 mb-5">
-    <h1>Login</h1>
+<div class="text-center mt-4">
+    <h3>Member Area</h3>
+</div>
+<div class="mt-2 mb-5 p-4 card text-dark container text-md-start" style="max-width: 400px">
     <form @submit.prevent="submitLoginData">
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" v-model="loginData.email" ref="emailRef">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            <small class="form-text text-danger" v-if="errors.email">{{errors.email}}</small>
         </div>
         <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
             <input type="password" class="form-control" id="exampleInputPassword1" v-model="loginData.password">
+            <small class="form-text text-danger" v-if="errors.password">{{errors.password}}</small>
         </div>
         <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1" v-model="loginData.rememberMe">
@@ -72,22 +75,33 @@ export default {
                 this.errors.email = "Email is Required";
             else if (!this.loginData.password)
                 this.errors.password = "Password is Required";
-            this.btnLoading = true;
-            try {
-                const data = await this.$store.dispatch('LoginWithCredentials', this.loginData);
-                if (data.id) {
-                    this.$swal('Logged in Successfully!');
-                    this.$router.push({
-                        name: "Users"
-                    })
-                } else
-                    this.$swal('Loged in Failed!');
-            } catch (error) {
-                this.$swal(error.message);
-            } finally {
-                this.btnLoading = false;
+            else {
+                this.btnLoading = true;
+                try {
+                    const data = await this.$store.dispatch('LoginWithCredentials', this.loginData);
+                    if (data.id) {
+                        this.$swal('Logged in Successfully!');
+                        this.$router.push({
+                            name: "Users"
+                        })
+                    } else
+                        this.$swal('Loged in Failed!');
+                } catch (error) {
+                    this.$swal(error.message);
+                } finally {
+                    this.btnLoading = false;
+                }
             }
 
+        }
+    },
+
+    watch: {
+        loginData: {
+            handler() {
+                this.errors = {}
+            },
+            deep: true,
         }
     }
 }

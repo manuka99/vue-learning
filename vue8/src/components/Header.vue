@@ -1,40 +1,34 @@
 <template>
-<div class="container card mt-4 mb-4">
-    <ul class="m-2 nav nav-pills">
-        <li class="nav-item">
+<header class="mb-auto">
+    <div>
+        <h3 class="float-md-start mb-0">Feed Manager</h3>
+        <nav class="nav nav-masthead justify-content-center float-md-end">
             <router-link :to="{name: 'Landing'}" active-class="active" :class="'nav-link'">
                 Home
             </router-link>
-        </li>
-        <li class="nav-item">
             <router-link :to="{name: 'Posts'}" active-class="active" :class="'nav-link'">
                 Posts
             </router-link>
-        </li>
-        <li class="nav-item" v-if="!isLoggedIn">
-            <router-link :to="{name: 'Login'}" active-class="active" :class="'nav-link'">
-                Login
-            </router-link>
-        </li>
-        <template v-else>
-            <li class="nav-item">
+            <template v-if="!isLoggedIn">
+
+                <router-link :to="{name: 'Login'}" active-class="active" :class="'nav-link'">
+                    Login
+                </router-link>
+            </template>
+            <template v-else>
                 <router-link :to="{name: 'Users'}" active-class="active" :class="'nav-link'">
                     Users
                 </router-link>
-            </li>
-            <li class="nav-item">
                 <router-link :to="{name: 'UserProfile'}" active-class="active" :class="'nav-link'">
-                    Profile - {{$store.state.user.name}}
+                    {{$store.state.user.name}}
                 </router-link>
-            </li>
-            <li class="nav-item">
-                <button @click="Logout" class="btn btn-danger">
+                <a @click="Logout" :class="['nav-link', 'link-danger']" style="color: red">
                     Logout
-                </button>
-            </li>
-        </template>
-    </ul>
-</div>
+                </a>
+            </template>
+        </nav>
+    </div>
+</header>
 </template>
 
 <script>
@@ -64,5 +58,25 @@ export default {
 </script>
 
 <style scoped>
+.nav-masthead .nav-link {
+    padding: .25rem 0;
+    font-weight: 700;
+    color: rgba(255, 255, 255, .5);
+    background-color: transparent;
+    border-bottom: .25rem solid transparent;
+}
 
+.nav-masthead .nav-link:hover,
+.nav-masthead .nav-link:focus {
+    border-bottom-color: rgba(255, 255, 255, .25);
+}
+
+.nav-masthead .nav-link+.nav-link {
+    margin-left: 1rem;
+}
+
+.nav-masthead .active {
+    color: #fff;
+    border-bottom-color: #fff;
+}
 </style>

@@ -56,6 +56,6 @@ const Router = createRouter({
   routes,
 });
 
-Router.beforeEach(async () => store.state.isUserRequested);
+// Router.beforeEach(async () => store.state.isUserRequested);
 
 export default Router;

@@ -2,7 +2,7 @@
 <div class="container mt-4 mb-4">
     <h1>Post List</h1>
     <template v-if="posts.length > 0">
-        <table class="table">
+        <table class="table table-dark">
             <thead>
                 <tr>
                     <th scope="col">#</th>
